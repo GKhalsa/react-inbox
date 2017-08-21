@@ -44,11 +44,19 @@ export default class MessageList extends Component {
         this.setState({ messages: newMessages })
     }
 
+    selectedCount = () => {
+        return this.state.messages.filter((message) => message.selected).length
+    }
+
+    totalMessageCount = () => {
+        return this.state.messages.length
+    }
+
     render(){
         
         return (
             <div>
-                <Toolbar />
+                <Toolbar selectedCount={this.selectedCount} totalMessageCount={this.totalMessageCount}/>
                 {this.state.messages.map((message,i) => <Message 
                                                          key={i} 
                                                          toggleSelect={this.toggleSelect}
@@ -56,7 +64,8 @@ export default class MessageList extends Component {
                                                          id={message.id}
                                                          subject={message.subject}
                                                          starred={message.starred}
-                                                         toggleStarring={this.toggleStarring}/>) }
+                                                         toggleStarring={this.toggleStarring}
+                                                         />) }
             </div>
         )
 

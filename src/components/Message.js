@@ -24,7 +24,7 @@ const Message = ({
                 {subject}
         </a>
         </div>
-    // </div>
+     </div>
 )
 
 export default Message
