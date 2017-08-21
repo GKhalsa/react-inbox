@@ -35,13 +35,18 @@ export default class MessageList extends Component {
     // componentDidMount(){
     //     this.setState({messages: generateData()})
     // }
+    toggleStarring = (id) => {
+        const newMessages = [...this.state.messages]
+        newMessages[id - 1].starred = !newMessages[id - 1].starred
+      this.setState({messages: newMessages})
+    }
 
     render(){
-        debugger;
+        
         return (
             <div>
                 <Toolbar />
-                {this.state.messages.map((message) => <Message id={message.id} subject={message.subject} starred={message.starred}/>) }
+                {this.state.messages.map((message) => <Message id={message.id} subject={message.subject} starred={message.starred} toggleStarring={this.toggleStarring}/>) }
             </div>
         )
 
