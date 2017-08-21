@@ -26,9 +26,13 @@
   font-weight: bold;
 }
 
-.message.selected {
+/* .selected {
   background: #ffffcc;
-}
+} */
+
+ .message.selected {
+  background: #ffffcc;
+} 
 
 .message:hover {
   margin-left: -3px;

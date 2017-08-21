@@ -38,12 +38,25 @@ export default class MessageList extends Component {
         this.setState({messages: newMessages})
     }
 
+    toggleSelect = (id) => {
+        const newMessages = [...this.state.messages]
+        newMessages[id - 1].selected = !newMessages[id - 1].selected
+        this.setState({ messages: newMessages })
+    }
+
     render(){
         
         return (
             <div>
                 <Toolbar />
-                {this.state.messages.map((message,i) => <Message key={i} id={message.id} subject={message.subject} starred={message.starred} toggleStarring={this.toggleStarring}/>) }
+                {this.state.messages.map((message,i) => <Message 
+                                                         key={i} 
+                                                         toggleSelect={this.toggleSelect}
+                                                         selected={message.selected}
+                                                         id={message.id}
+                                                         subject={message.subject}
+                                                         starred={message.starred}
+                                                         toggleStarring={this.toggleStarring}/>) }
             </div>
         )
 
