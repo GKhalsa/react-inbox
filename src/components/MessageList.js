@@ -52,11 +52,29 @@ export default class MessageList extends Component {
         return this.state.messages.length
     }
 
+    selectDeselect = () => {
+        if (this.selectedCount() === this.totalMessageCount()) {
+            const newMessages = this.state.messages.map((message) => {return { ...message, selected: false }})
+            this.setState({messages:newMessages})
+        } else {
+            const newMessages = this.state.messages.map((message) => { return { ...message, selected: true } })
+            // const newMessages = this.state.messages.map((message) => { return { ...message, [selected]: true } })
+            this.setState({ messages: newMessages })
+        }       
+    }
+
+
+
     render(){
         
         return (
             <div>
-                <Toolbar selectedCount={this.selectedCount} totalMessageCount={this.totalMessageCount}/>
+                <Toolbar
+                 selectedCount={this.selectedCount}
+                 totalMessageCount={this.totalMessageCount}
+                 selectDeselect={this.selectDeselect}
+                 />
+
                 {this.state.messages.map((message,i) => <Message 
                                                          key={i} 
                                                          toggleSelect={this.toggleSelect}
