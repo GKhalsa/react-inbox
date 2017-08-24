@@ -75,6 +75,16 @@ export default class MessageList extends Component {
         
     }
 
+    markAsUnread = () => {
+        const markedUnread = this.state.messages.map((message) => {
+            if (message.selected) {
+                return { ...message, read: false }
+            }
+            return message
+        });
+        this.setState({ messages: markedUnread })   
+    }
+
 
 
     render(){
@@ -86,6 +96,7 @@ export default class MessageList extends Component {
                  totalMessageCount={this.totalMessageCount}
                  selectDeselect={this.selectDeselect}
                  markAsRead={this.markAsRead}
+                 markAsUnread={this.markAsUnread}
                  />
 
                 {this.state.messages.map((message,i) => <Message 

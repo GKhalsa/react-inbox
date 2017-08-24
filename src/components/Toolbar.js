@@ -1,6 +1,12 @@
 import React from 'react'
 
-const Toolbar = ({selectedCount, totalMessageCount, selectDeselect, markAsRead}) => (
+const Toolbar = ({
+    selectedCount,
+    totalMessageCount,
+    selectDeselect,
+    markAsRead,
+    markAsUnread
+}) => (
     <div className="row toolbar">
         <div className="col-md-12">
             <p className="pull-right">
@@ -16,7 +22,7 @@ const Toolbar = ({selectedCount, totalMessageCount, selectDeselect, markAsRead})
                 Mark As Read
             </button>
 
-            <button className="btn btn-default" disabled="disabled">
+            <button className="btn btn-default" onClick={e => markAsUnread()}>
                 Mark As Unread
             </button>
 
