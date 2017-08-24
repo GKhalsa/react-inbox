@@ -63,6 +63,18 @@ export default class MessageList extends Component {
         }       
     }
 
+    markAsRead = () => {
+        
+        const markedRead = this.state.messages.map((message) => {
+            if(message.selected){
+                return {...message, read: true}
+            }
+            return message
+        });
+        this.setState({messages:markedRead})   
+        
+    }
+
 
 
     render(){
@@ -73,6 +85,7 @@ export default class MessageList extends Component {
                  selectedCount={this.selectedCount}
                  totalMessageCount={this.totalMessageCount}
                  selectDeselect={this.selectDeselect}
+                 markAsRead={this.markAsRead}
                  />
 
                 {this.state.messages.map((message,i) => <Message 
@@ -83,6 +96,7 @@ export default class MessageList extends Component {
                                                          subject={message.subject}
                                                          starred={message.starred}
                                                          toggleStarring={this.toggleStarring}
+                                                         read={message.read}
                                                          />) }
             </div>
         )

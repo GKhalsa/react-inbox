@@ -6,13 +6,14 @@ const Message = ({
     starred,
     toggleStarring,
     toggleSelect,
-    selected
+    selected,
+    read
 }) => (
-    <div className={`row message unread ${selected ? "selected" : ""}`}>
+    <div className={`row message ${read ? "read" : "unread"} ${selected ? "selected" : ""}`}>
         <div className="col-xs-1">
             <div className="row">
                 <div className="col-xs-2">
-                    <input type="checkbox" checked={selected} onClick={e => toggleSelect(id)}/>
+                    <input type="checkbox" checked={!!selected} onClick={e => toggleSelect(id)}/>
                 </div>
                 <div className="col-xs-2" onClick={e => toggleStarring(id)}>
                     {starred ? <i className="star fa fa-star"></i> : <i className="star fa fa-star-o"></i>}

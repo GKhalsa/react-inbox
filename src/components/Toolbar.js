@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Toolbar = ({selectedCount, totalMessageCount, selectDeselect}) => (
+const Toolbar = ({selectedCount, totalMessageCount, selectDeselect, markAsRead}) => (
     <div className="row toolbar">
         <div className="col-md-12">
             <p className="pull-right">
@@ -12,7 +12,7 @@ const Toolbar = ({selectedCount, totalMessageCount, selectDeselect}) => (
                 {selectedCount() === 0 ? <i className="fa fa-square-o"></i> : <i className={`fa ${selectedCount() === totalMessageCount() ? "fa-check-square-o" : "fa-minus-square-o"}`}></i>}
             </button>
 
-            <button className="btn btn-default" disabled="disabled">
+            <button className="btn btn-default" onClick={e => markAsRead()}>
                 Mark As Read
             </button>
 
