@@ -1,17 +1,18 @@
 import React from 'react'
-
+//should component update for unreadmessagecount
 const Toolbar = ({
     selectedCount,
     totalMessageCount,
     selectDeselect,
     markAsRead,
     markAsUnread,
-    deleteSelectedMessages
+    deleteSelectedMessages,
+    unreadMessageCount
 }) => (
     <div className="row toolbar">
         <div className="col-md-12">
             <p className="pull-right">
-                <span className="badge badge">2</span>
+                <span className="badge badge">{unreadMessageCount}</span>
                 unread messages
             </p>
 
@@ -27,14 +28,14 @@ const Toolbar = ({
                 Mark As Unread
             </button>
 
-            <select className="form-control label-select" disabled="disabled">
+            <select className="form-control label-select">
                 <option>Apply label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
             </select>
 
-            <select className="form-control label-select" disabled="disabled">
+            <select className="form-control label-select" >
                 <option>Remove label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>

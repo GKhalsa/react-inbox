@@ -91,7 +91,9 @@ export default class MessageList extends Component {
         this.setState({messages:newMessages})
     }
 
-
+    unreadMessageCount = () => {
+        return this.state.messages.filter((message) => {return !message.read}).length
+    }
 
     render(){
         
@@ -104,6 +106,7 @@ export default class MessageList extends Component {
                  markAsRead={this.markAsRead}
                  markAsUnread={this.markAsUnread}
                  deleteSelectedMessages={this.deleteSelectedMessages}
+                 unreadMessageCount={this.unreadMessageCount()}
                  />
 
                 {this.state.messages.map((message,i) => <Message 
@@ -115,6 +118,7 @@ export default class MessageList extends Component {
                                                          starred={message.starred}
                                                          toggleStarring={this.toggleStarring}
                                                          read={message.read}
+                                                         labels={message.labels}
                                                          />) }
             </div>
         )

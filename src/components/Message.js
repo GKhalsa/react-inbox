@@ -7,7 +7,8 @@ const Message = ({
     toggleStarring,
     toggleSelect,
     selected,
-    read
+    read,
+    labels
 }) => (
     <div className={`row message ${read ? "read" : "unread"} ${selected ? "selected" : ""}`}>
         <div className="col-xs-1">
@@ -21,6 +22,8 @@ const Message = ({
             </div>
         </div>
         <div className="col-xs-11">
+            {labels.map((label) => {return <span className="label label-warning">{label}</span>})}
+
             <a href="#">
                 {subject}
         </a>
