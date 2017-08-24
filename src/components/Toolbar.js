@@ -5,7 +5,8 @@ const Toolbar = ({
     totalMessageCount,
     selectDeselect,
     markAsRead,
-    markAsUnread
+    markAsUnread,
+    deleteSelectedMessages
 }) => (
     <div className="row toolbar">
         <div className="col-md-12">
@@ -40,7 +41,7 @@ const Toolbar = ({
                 <option value="gschool">gschool</option>
             </select>
 
-            <button className="btn btn-default" disabled="disabled">
+            <button className="btn btn-default" onClick={e => {deleteSelectedMessages()}}>
                 <i className="fa fa-trash-o"></i>
             </button>
         </div>

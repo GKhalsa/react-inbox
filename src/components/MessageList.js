@@ -33,6 +33,7 @@ export default class MessageList extends Component {
     }
 
     toggleStarring = (id) => {
+        //refactor to use id not index!
         const newMessages = [...this.state.messages]
         newMessages[id - 1].starred = !newMessages[id - 1].starred
         this.setState({messages: newMessages})
@@ -85,6 +86,11 @@ export default class MessageList extends Component {
         this.setState({ messages: markedUnread })   
     }
 
+    deleteSelectedMessages = () => {
+        const newMessages = this.state.messages.filter((message) => {return !message.selected})
+        this.setState({messages:newMessages})
+    }
+
 
 
     render(){
@@ -97,6 +103,7 @@ export default class MessageList extends Component {
                  selectDeselect={this.selectDeselect}
                  markAsRead={this.markAsRead}
                  markAsUnread={this.markAsUnread}
+                 deleteSelectedMessages={this.deleteSelectedMessages}
                  />
 
                 {this.state.messages.map((message,i) => <Message 
