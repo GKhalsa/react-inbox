@@ -8,7 +8,8 @@ const Toolbar = ({
     markAsUnread,
     deleteSelectedMessages,
     unreadMessageCount,
-    addLabelToSelected
+    addLabelToSelected,
+    removeLabelOnSelected
 }) => (
     <div className="row toolbar">
         <div className="col-md-12">

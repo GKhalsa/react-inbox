@@ -106,6 +106,22 @@ export default class MessageList extends Component {
         this.setState({messages: messagesWithUpdatedLabel})
     }
 
+    removeElementFromArray = (array, element) => {
+        return array.filter((label) => {return label != element})
+    }
+
+    removeLabelOnSelected = (e) => {
+        const label = e.target.value
+
+        const messagesWithUpdatedLabel = this.state.messages.map((message) => {
+            const updatedLabels = this.removeElementFromArray(message.labels, label)
+            if (message.selected) { return { ...message, labels: updatedLabels } }
+            return { ...message }
+        })
+
+        this.setState({ messages: messagesWithUpdatedLabel })
+    }
+
     render(){
         
         return (
@@ -119,6 +135,7 @@ export default class MessageList extends Component {
                  deleteSelectedMessages={this.deleteSelectedMessages}
                  unreadMessageCount={this.unreadMessageCount()}
                  addLabelToSelected={this.addLabelToSelected}
+                 removeLabelOnSelected={this.removeLabelOnSelected}
                  />
 
                 {this.state.messages.map((message,i) => <Message 
