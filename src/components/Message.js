@@ -22,7 +22,7 @@ const Message = ({
             </div>
         </div>
         <div className="col-xs-11">
-            {labels.map((label) => {return <span className="label label-warning">{label}</span>})}
+            {labels.map((label, i) => {return <span key={i} className="label label-warning">{label}</span>})}
 
             <a href="#">
                 {subject}

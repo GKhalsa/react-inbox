@@ -7,7 +7,8 @@ const Toolbar = ({
     markAsRead,
     markAsUnread,
     deleteSelectedMessages,
-    unreadMessageCount
+    unreadMessageCount,
+    addLabelToSelected
 }) => (
     <div className="row toolbar">
         <div className="col-md-12">
@@ -28,14 +29,14 @@ const Toolbar = ({
                 Mark As Unread
             </button>
 
-            <select className="form-control label-select">
+            <select className="form-control label-select" onChange={e => addLabelToSelected(e)}>
                 <option>Apply label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
             </select>
 
-            <select className="form-control label-select" >
+            <select className="form-control label-select" onChange={e => removeLabelOnSelected(e)}>
                 <option>Remove label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
