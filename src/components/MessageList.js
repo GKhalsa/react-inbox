@@ -1,48 +1,20 @@
 import React, {Component} from 'react'
 import Message from './Message'
 import Toolbar from './Toolbar'
-// import generateData from '../messageSeeds.js'
+import MessageSeeds from './messageSeeds'
 
 export default class MessageList extends Component {
 
     state = {
-        messages:[
-            {
-                "id": 1,
-                "subject": "You can't input the protocol without calculating the mobile RSS protocol!",
-                "read": false,
-                "starred": true,
-                "labels": ["dev", "personal"]
-            },
-            {
-                "id": 2,
-                "subject": "connecting the system won't do anything, we need to input the mobile AI panel!",
-                "read": false,
-                "starred": false,
-                "selected": true,
-                "labels": []
-            },
-            {
-                "id": 3,
-                "subject": "Use the 1080p HTTP feed, then you can parse the cross-platform hard drive!",
-                "read": false,
-                "starred": true,
-                "labels": ["dev"]
-            },
-        ]
+        messages:MessageSeeds
     }
 
-    toggleStarring = (id) => {
-        //refactor to use id not index!
-        const newMessages = [...this.state.messages]
-        newMessages[id - 1].starred = !newMessages[id - 1].starred
-        this.setState({messages: newMessages})
-    }
-
-    toggleSelect = (id) => {
-        const newMessages = [...this.state.messages]
-        newMessages[id - 1].selected = !newMessages[id - 1].selected
-        this.setState({ messages: newMessages })
+    toggleAttribute = (id, attribute) => {
+        const updatedMessages = this.state.messages.map((message) => {
+            if(message.id === id){return {...message, [attribute]: !message[attribute]}}
+            return message
+        })
+        this.setState({messages: updatedMessages}) 
     }
 
     selectedCount = () => {
@@ -53,37 +25,26 @@ export default class MessageList extends Component {
         return this.state.messages.length
     }
 
+    updateSelection = (booleanValue) => {
+        return this.state.messages.map((message) => { return { ...message, selected: booleanValue } })
+    }
+
     selectDeselect = () => {
+        let newMessages;
         if (this.selectedCount() === this.totalMessageCount()) {
-            const newMessages = this.state.messages.map((message) => {return { ...message, selected: false }})
-            this.setState({messages:newMessages})
+            newMessages = this.updateSelection(false)
         } else {
-            const newMessages = this.state.messages.map((message) => { return { ...message, selected: true } })
-            // const newMessages = this.state.messages.map((message) => { return { ...message, [selected]: true } })
-            this.setState({ messages: newMessages })
+            const newMessages = this.updateSelection(true)
         }       
+      
+        this.setState({ messages: newMessages })
     }
 
-    markAsRead = () => {
-        
-        const markedRead = this.state.messages.map((message) => {
-            if(message.selected){
-                return {...message, read: true}
-            }
+    markAsReadOrUnread = (booleanValue) => {
+        const markedReadOrUnread = this.state.messages.map((message) => {if (message.selected) {return { ...message, read: booleanValue }}
             return message
         });
-        this.setState({messages:markedRead})   
-        
-    }
-
-    markAsUnread = () => {
-        const markedUnread = this.state.messages.map((message) => {
-            if (message.selected) {
-                return { ...message, read: false }
-            }
-            return message
-        });
-        this.setState({ messages: markedUnread })   
+        this.setState({ messages: markedReadOrUnread })   
     }
 
     deleteSelectedMessages = () => {
@@ -100,7 +61,7 @@ export default class MessageList extends Component {
         
         const messagesWithUpdatedLabel = this.state.messages.map((message) => {
             if (message.selected) { return { ...message, labels: [...new Set([...message.labels, label])] }}
-            return {...message}
+            return message
         })
         
         this.setState({messages: messagesWithUpdatedLabel})
@@ -116,7 +77,7 @@ export default class MessageList extends Component {
         const messagesWithUpdatedLabel = this.state.messages.map((message) => {
             const updatedLabels = this.removeElementFromArray(message.labels, label)
             if (message.selected) { return { ...message, labels: updatedLabels } }
-            return { ...message }
+            return message
         })
 
         this.setState({ messages: messagesWithUpdatedLabel })
@@ -130,8 +91,7 @@ export default class MessageList extends Component {
                  selectedCount={this.selectedCount}
                  totalMessageCount={this.totalMessageCount}
                  selectDeselect={this.selectDeselect}
-                 markAsRead={this.markAsRead}
-                 markAsUnread={this.markAsUnread}
+                 markAsReadOrUnread={this.markAsReadOrUnread}
                  deleteSelectedMessages={this.deleteSelectedMessages}
                  unreadMessageCount={this.unreadMessageCount()}
                  addLabelToSelected={this.addLabelToSelected}
@@ -140,12 +100,11 @@ export default class MessageList extends Component {
 
                 {this.state.messages.map((message,i) => <Message 
                                                          key={i} 
-                                                         toggleSelect={this.toggleSelect}
                                                          selected={message.selected}
                                                          id={message.id}
                                                          subject={message.subject}
                                                          starred={message.starred}
-                                                         toggleStarring={this.toggleStarring}
+                                                         toggleAttribute={this.toggleAttribute}
                                                          read={message.read}
                                                          labels={message.labels}
                                                          />) }

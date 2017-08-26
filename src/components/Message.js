@@ -4,8 +4,7 @@ const Message = ({
     id,
     subject,
     starred,
-    toggleStarring,
-    toggleSelect,
+    toggleAttribute,
     selected,
     read,
     labels
@@ -14,9 +13,9 @@ const Message = ({
         <div className="col-xs-1">
             <div className="row">
                 <div className="col-xs-2">
-                    <input type="checkbox" checked={!!selected} onClick={e => toggleSelect(id)}/>
+                    <input type="checkbox" checked={!!selected} onChange={e => toggleAttribute(id, "selected")}/>
                 </div>
-                <div className="col-xs-2" onClick={e => toggleStarring(id)}>
+                <div className="col-xs-2" onClick={e => toggleAttribute(id, "starred")}>
                     {starred ? <i className="star fa fa-star"></i> : <i className="star fa fa-star-o"></i>}
                 </div>
             </div>

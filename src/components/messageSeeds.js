@@ -1,6 +1,5 @@
-export default function generateSeedData() {
-
-  return  [
+const MessageSeeds = 
+[
         {
             "id": 1,
             "subject": "You can't input the protocol without calculating the mobile RSS protocol!",
@@ -70,4 +69,4 @@ export default function generateSeedData() {
             "labels": []
         }
     ]
-}
+export default MessageSeeds

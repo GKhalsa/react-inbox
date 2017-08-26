@@ -1,11 +1,10 @@
 import React from 'react'
-//should component update for unreadmessagecount
+
 const Toolbar = ({
     selectedCount,
     totalMessageCount,
     selectDeselect,
-    markAsRead,
-    markAsUnread,
+    markAsReadOrUnread,
     deleteSelectedMessages,
     unreadMessageCount,
     addLabelToSelected,
@@ -22,11 +21,11 @@ const Toolbar = ({
                 {selectedCount() === 0 ? <i className="fa fa-square-o"></i> : <i className={`fa ${selectedCount() === totalMessageCount() ? "fa-check-square-o" : "fa-minus-square-o"}`}></i>}
             </button>
 
-            <button className="btn btn-default" onClick={e => markAsRead()}>
+            <button className="btn btn-default" onClick={e => markAsReadOrUnread(true)}>
                 Mark As Read
             </button>
 
-            <button className="btn btn-default" onClick={e => markAsUnread()}>
+            <button className="btn btn-default" onClick={e => markAsReadOrUnread(false)}>
                 Mark As Unread
             </button>
 
