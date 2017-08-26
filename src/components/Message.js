@@ -31,5 +31,3 @@ const Message = ({
 )
 
 export default Message
-
-//TODO: all the toggles can be same function just pass param to toggle
