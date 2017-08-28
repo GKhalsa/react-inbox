@@ -34,7 +34,7 @@ export default class MessageList extends Component {
         if (this.selectedCount() === this.totalMessageCount()) {
             newMessages = this.updateSelection(false)
         } else {
-            const newMessages = this.updateSelection(true)
+            newMessages = this.updateSelection(true)
         }       
       
         this.setState({ messages: newMessages })
