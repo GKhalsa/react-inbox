@@ -8,7 +8,8 @@ const Toolbar = ({
     deleteSelectedMessages,
     unreadMessageCount,
     addLabelToSelected,
-    removeLabelOnSelected
+    removeLabelOnSelected,
+    updateReadOrUnread
 }) => (
     <div className="row toolbar">
         <div className="col-md-12">
@@ -21,11 +22,11 @@ const Toolbar = ({
                 {selectedCount() === 0 ? <i className="fa fa-square-o"></i> : <i className={`fa ${selectedCount() === totalMessageCount() ? "fa-check-square-o" : "fa-minus-square-o"}`}></i>}
             </button>
 
-            <button className="btn btn-default" onClick={e => markAsReadOrUnread(true)}>
+            <button className="btn btn-default" onClick={e => updateReadOrUnread(true)}>
                 Mark As Read
             </button>
 
-            <button className="btn btn-default" onClick={e => markAsReadOrUnread(false)}>
+            <button className="btn btn-default" onClick={e => updateReadOrUnread(false)}>
                 Mark As Unread
             </button>
 

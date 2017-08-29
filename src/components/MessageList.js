@@ -6,7 +6,31 @@ import MessageSeeds from './messageSeeds'
 export default class MessageList extends Component {
 
     state = {
-        messages:MessageSeeds
+        messages:[]
+    }
+
+    componentDidMount = async() => {
+        const response = await fetch("http://localhost:8082/api/messages")
+        const json = await response.json()
+        this.setState({ messages: json._embedded.messages})
+    }
+
+    updateStar = async(id) => {
+        let message = this.state.messages.filter((message) => {return message.id === id})
+        const response = await fetch("http://localhost:8082/api/messages", {
+            method: 'PATCH',
+            body: JSON.stringify({
+                "messageIds": [id],
+                "command": "star",
+                "star": !message[0].starred
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        }) 
+        this.toggleAttribute(id,"starred")
+        
     }
 
     toggleAttribute = (id, attribute) => {
@@ -45,6 +69,31 @@ export default class MessageList extends Component {
             return message
         });
         this.setState({ messages: markedReadOrUnread })   
+    }
+
+    
+    updateReadOrUnread = async(booleanValue) => {
+        const ids = this.state.messages.map((message) => {if (message.selected) {return message.id}return})
+        const noUndefinedIds = ids.filter(Number)
+        
+        // this.state.messages.map((message) => {
+            // if (message.selected) {
+                const response = await fetch("http://localhost:8082/api/messages",{
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        "messageIds": [...noUndefinedIds],
+                        "command": "read",
+                        "read": booleanValue
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    }
+                })
+            // }
+        // })
+        this.markAsReadOrUnread(booleanValue)
+
     }
 
     deleteSelectedMessages = () => {
@@ -92,6 +141,7 @@ export default class MessageList extends Component {
                  totalMessageCount={this.totalMessageCount}
                  selectDeselect={this.selectDeselect}
                  markAsReadOrUnread={this.markAsReadOrUnread}
+                 updateReadOrUnread={this.updateReadOrUnread}
                  deleteSelectedMessages={this.deleteSelectedMessages}
                  unreadMessageCount={this.unreadMessageCount()}
                  addLabelToSelected={this.addLabelToSelected}
@@ -107,6 +157,7 @@ export default class MessageList extends Component {
                                                          toggleAttribute={this.toggleAttribute}
                                                          read={message.read}
                                                          labels={message.labels}
+                                                         updateStar={this.updateStar}
                                                          />) }
             </div>
         )
