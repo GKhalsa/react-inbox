@@ -5,7 +5,7 @@ const Toolbar = ({
     totalMessageCount,
     selectDeselect,
     markAsReadOrUnread,
-    deleteSelectedMessages,
+    httpDelete,
     unreadMessageCount,
     addLabelToSelected,
     removeLabelOnSelected,
@@ -44,7 +44,7 @@ const Toolbar = ({
                 <option value="gschool">gschool</option>
             </select>
 
-            <button className="btn btn-default" onClick={e => {deleteSelectedMessages()}}>
+            <button className="btn btn-default" onClick={e => { httpDelete()}}>
                 <i className="fa fa-trash-o"></i>
             </button>
         </div>

@@ -76,8 +76,7 @@ export default class MessageList extends Component {
         const ids = this.state.messages.map((message) => {if (message.selected) {return message.id}return})
         const noUndefinedIds = ids.filter(Number)
         
-        // this.state.messages.map((message) => {
-            // if (message.selected) {
+       
                 const response = await fetch("http://localhost:8082/api/messages",{
                     method: 'PATCH',
                     body: JSON.stringify({
@@ -90,8 +89,7 @@ export default class MessageList extends Component {
                         'Accept': 'application/json',
                     }
                 })
-            // }
-        // })
+       
         this.markAsReadOrUnread(booleanValue)
 
     }
@@ -99,6 +97,24 @@ export default class MessageList extends Component {
     deleteSelectedMessages = () => {
         const newMessages = this.state.messages.filter((message) => {return !message.selected})
         this.setState({messages:newMessages})
+    }
+
+    httpDelete = async() => {
+        const ids = this.state.messages.map((message) => { if (message.selected) { return message.id } return })
+        const noUndefinedIds = ids.filter(Number)
+        const response = await fetch("http://localhost:8082/api/messages", {
+            method: 'PATCH',
+            body: JSON.stringify({
+                "messageIds": [...noUndefinedIds],
+                "command": "delete",
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        })
+
+        this.deleteSelectedMessages()
     }
 
     unreadMessageCount = () => {
@@ -142,7 +158,7 @@ export default class MessageList extends Component {
                  selectDeselect={this.selectDeselect}
                  markAsReadOrUnread={this.markAsReadOrUnread}
                  updateReadOrUnread={this.updateReadOrUnread}
-                 deleteSelectedMessages={this.deleteSelectedMessages}
+                 httpDelete={this.httpDelete}
                  unreadMessageCount={this.unreadMessageCount()}
                  addLabelToSelected={this.addLabelToSelected}
                  removeLabelOnSelected={this.removeLabelOnSelected}
