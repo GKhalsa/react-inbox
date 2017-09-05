@@ -4,7 +4,6 @@ const Toolbar = ({
     selectedCount,
     totalMessageCount,
     selectDeselect,
-    markAsReadOrUnread,
     httpDelete,
     unreadMessageCount,
     httpLabel,

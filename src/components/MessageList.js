@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Message from './Message'
 import Toolbar from './Toolbar'
 import MessageSeeds from './messageSeeds'
+import {httpUpdateStar, httpUpdateReadOrUnread, httpLabel, httpDeleteMessage} from './http'
 
 export default class MessageList extends Component {
 
@@ -15,20 +16,14 @@ export default class MessageList extends Component {
         this.setState({ messages: json._embedded.messages})
     }
 
+    selectedMessages = () => {
+        const ids = this.state.messages.map((message) => { if (message.selected) { return message.id } return })
+        return ids.filter(Number)
+    }
+
     updateStar = async(id) => {
         let message = this.state.messages.filter((message) => {return message.id === id})
-        const response = await fetch("http://localhost:8082/api/messages", {
-            method: 'PATCH',
-            body: JSON.stringify({
-                "messageIds": [id],
-                "command": "star",
-                "star": !message[0].starred
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        }) 
+        httpUpdateStar(id, message)
         this.toggleAttribute(id,"starred")
         
     }
@@ -73,25 +68,9 @@ export default class MessageList extends Component {
 
     
     updateReadOrUnread = async(booleanValue) => {
-        const ids = this.state.messages.map((message) => {if (message.selected) {return message.id}return})
-        const noUndefinedIds = ids.filter(Number)
-        
-       
-                const response = await fetch("http://localhost:8082/api/messages",{
-                    method: 'PATCH',
-                    body: JSON.stringify({
-                        "messageIds": [...noUndefinedIds],
-                        "command": "read",
-                        "read": booleanValue
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    }
-                })
-       
+        const noUndefinedIds = this.selectedMessages()
+        httpUpdateReadOrUnread(noUndefinedIds, booleanValue)
         this.markAsReadOrUnread(booleanValue)
-
     }
 
     deleteSelectedMessages = () => {
@@ -100,20 +79,8 @@ export default class MessageList extends Component {
     }
 
     httpDelete = async() => {
-        const ids = this.state.messages.map((message) => { if (message.selected) { return message.id } return })
-        const noUndefinedIds = ids.filter(Number)
-        const response = await fetch("http://localhost:8082/api/messages", {
-            method: 'PATCH',
-            body: JSON.stringify({
-                "messageIds": [...noUndefinedIds],
-                "command": "delete",
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        })
-
+        const noUndefinedIds = this.selectedMessages()
+        httpDeleteMessage(noUndefinedIds)
         this.deleteSelectedMessages()
     }
 
@@ -146,21 +113,9 @@ export default class MessageList extends Component {
 
     httpLabel = async(e, type) => {
         const label = e.target.value 
-        const ids = this.state.messages.map((message) => { if (message.selected) { return message.id } return })
-        const noUndefinedIds = ids.filter(Number)  //refactor away from using these in two places
+        const noUndefinedIds = this.selectedMessages()
+        httpLabel(noUndefinedIds, type, label)
 
-        const response = await fetch("http://localhost:8082/api/messages", {
-            method: 'PATCH',
-            body: JSON.stringify({
-                "messageIds": [...noUndefinedIds],
-                "command": type,
-                "label": label
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        })
         if (type == "addLabel") {return this.addLabelToSelected(label)}
         this.removeLabelOnSelected(label)
     }
@@ -173,7 +128,6 @@ export default class MessageList extends Component {
                  selectedCount={this.selectedCount}
                  totalMessageCount={this.totalMessageCount}
                  selectDeselect={this.selectDeselect}
-                 markAsReadOrUnread={this.markAsReadOrUnread}
                  updateReadOrUnread={this.updateReadOrUnread}
                  httpDelete={this.httpDelete}
                  unreadMessageCount={this.unreadMessageCount()}
