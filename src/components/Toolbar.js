@@ -7,8 +7,7 @@ const Toolbar = ({
     markAsReadOrUnread,
     httpDelete,
     unreadMessageCount,
-    addLabelToSelected,
-    removeLabelOnSelected,
+    httpLabel,
     updateReadOrUnread
 }) => (
     <div className="row toolbar">
@@ -30,14 +29,14 @@ const Toolbar = ({
                 Mark As Unread
             </button>
 
-            <select className="form-control label-select" onChange={e => addLabelToSelected(e)}>
+            <select className="form-control label-select" onChange={e => httpLabel(e, "addLabel")}>
                 <option>Apply label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
             </select>
 
-            <select className="form-control label-select" onChange={e => removeLabelOnSelected(e)}>
+            <select className="form-control label-select" onChange={e => httpLabel(e, "removeLabel")}>
                 <option>Remove label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
