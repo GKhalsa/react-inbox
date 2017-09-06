@@ -7,7 +7,8 @@ const Toolbar = ({
     httpDelete,
     unreadMessageCount,
     httpLabel,
-    updateReadOrUnread
+    updateReadOrUnread,
+    openForm
 }) => (
     <div className="row toolbar">
         <div className="col-md-12">
@@ -15,6 +16,10 @@ const Toolbar = ({
                 <span className="badge badge">{unreadMessageCount}</span>
                 unread messages
             </p>
+
+            <button className="btn btn-danger" onClick={e => openForm()}>
+                <i className="fa fa-plus"></i>
+            </button>
 
             <button className="btn btn-default" onClick={e => selectDeselect()}>
                 {selectedCount() === 0 ? <i className="fa fa-square-o"></i> : <i className={`fa ${selectedCount() === totalMessageCount() ? "fa-check-square-o" : "fa-minus-square-o"}`}></i>}

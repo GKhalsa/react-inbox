@@ -2,12 +2,14 @@ import React, {Component} from 'react'
 import Message from './Message'
 import Toolbar from './Toolbar'
 import MessageSeeds from './messageSeeds'
-import {httpUpdateStar, httpUpdateReadOrUnread, httpLabel, httpDeleteMessage} from './http'
+import {httpUpdateStar, httpUpdateReadOrUnread, httpLabel, httpDeleteMessage, httpNewMessage} from './http'
+import ComposeForm from './ComposeForm'
 
 export default class MessageList extends Component {
 
     state = {
-        messages:[]
+        messages:[],
+        formOpen: false
     }
 
     componentDidMount = async() => {
@@ -21,7 +23,7 @@ export default class MessageList extends Component {
         return ids.filter(Number)
     }
 
-    updateStar = async(id) => {
+    updateStar = (id) => {
         let message = this.state.messages.filter((message) => {return message.id === id})
         httpUpdateStar(id, message)
         this.toggleAttribute(id,"starred")
@@ -67,7 +69,7 @@ export default class MessageList extends Component {
     }
 
     
-    updateReadOrUnread = async(booleanValue) => {
+    updateReadOrUnread = (booleanValue) => {
         const noUndefinedIds = this.selectedMessages()
         httpUpdateReadOrUnread(noUndefinedIds, booleanValue)
         this.markAsReadOrUnread(booleanValue)
@@ -78,7 +80,7 @@ export default class MessageList extends Component {
         this.setState({messages:newMessages})
     }
 
-    httpDelete = async() => {
+    httpDelete = () => {
         const noUndefinedIds = this.selectedMessages()
         httpDeleteMessage(noUndefinedIds)
         this.deleteSelectedMessages()
@@ -111,13 +113,30 @@ export default class MessageList extends Component {
         this.setState({ messages: messagesWithUpdatedLabel })
     }
 
-    httpLabel = async(e, type) => {
+    httpLabel = (e, type) => {
         const label = e.target.value 
         const noUndefinedIds = this.selectedMessages()
         httpLabel(noUndefinedIds, type, label)
 
         if (type == "addLabel") {return this.addLabelToSelected(label)}
         this.removeLabelOnSelected(label)
+    }
+
+    openForm = () => {
+        this.setState((prevState) => ({
+            formOpen: !prevState.formOpen
+        }))
+    }
+
+    newMessage = (e) => {
+        const subject = e.target.subject.value
+        const body = e.target.body.value
+        const id = this.state.messages.length + 1
+
+        const newMessage = httpNewMessage(subject,body)
+        this.setState((prevState) => ({
+            messages: [...prevState.messages, newMessage]    
+        }))
     }
 
     render(){
@@ -132,7 +151,10 @@ export default class MessageList extends Component {
                  httpDelete={this.httpDelete}
                  unreadMessageCount={this.unreadMessageCount()}
                  httpLabel={this.httpLabel}
+                 openForm={this.openForm}
                  />
+
+                 {this.state.formOpen ? <ComposeForm newMessage={this.newMessage}/> : null}
 
                 {this.state.messages.map((message,i) => <Message 
                                                          key={i} 

@@ -56,3 +56,20 @@ export const httpDeleteMessage = async(noUndefinedIds) => {
         }
     })
 }
+
+export const httpNewMessage = async(subject,body) => {
+    const response = await fetch("http://localhost:8082/api/messages", {
+        method: 'POST',
+        body: JSON.stringify({
+            "subject": subject,
+            "body": body,
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    })
+
+    const json = await response.json()
+    return json
+}
