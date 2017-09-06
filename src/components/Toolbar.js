@@ -4,11 +4,11 @@ const Toolbar = ({
     selectedCount,
     totalMessageCount,
     selectDeselect,
-    markAsReadOrUnread,
-    deleteSelectedMessages,
+    httpDelete,
     unreadMessageCount,
-    addLabelToSelected,
-    removeLabelOnSelected
+    httpLabel,
+    updateReadOrUnread,
+    openForm
 }) => (
     <div className="row toolbar">
         <div className="col-md-12">
@@ -17,33 +17,37 @@ const Toolbar = ({
                 unread messages
             </p>
 
+            <button className="btn btn-danger" onClick={e => openForm()}>
+                <i className="fa fa-plus"></i>
+            </button>
+
             <button className="btn btn-default" onClick={e => selectDeselect()}>
                 {selectedCount() === 0 ? <i className="fa fa-square-o"></i> : <i className={`fa ${selectedCount() === totalMessageCount() ? "fa-check-square-o" : "fa-minus-square-o"}`}></i>}
             </button>
 
-            <button className="btn btn-default" onClick={e => markAsReadOrUnread(true)}>
+            <button className="btn btn-default" onClick={e => updateReadOrUnread(true)}>
                 Mark As Read
             </button>
 
-            <button className="btn btn-default" onClick={e => markAsReadOrUnread(false)}>
+            <button className="btn btn-default" onClick={e => updateReadOrUnread(false)}>
                 Mark As Unread
             </button>
 
-            <select className="form-control label-select" onChange={e => addLabelToSelected(e)}>
+            <select className="form-control label-select" onChange={e => httpLabel(e, "addLabel")}>
                 <option>Apply label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
             </select>
 
-            <select className="form-control label-select" onChange={e => removeLabelOnSelected(e)}>
+            <select className="form-control label-select" onChange={e => httpLabel(e, "removeLabel")}>
                 <option>Remove label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
             </select>
 
-            <button className="btn btn-default" onClick={e => {deleteSelectedMessages()}}>
+            <button className="btn btn-default" onClick={e => { httpDelete()}}>
                 <i className="fa fa-trash-o"></i>
             </button>
         </div>
