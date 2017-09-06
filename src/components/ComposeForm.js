@@ -2,7 +2,7 @@ import React from 'react';
 
 const ComposeForm = ({newMessage}) => (
     <div>   
-        <form className="form-horizontal well" onSubmit={e => newMessage(e)}>
+        <form className="form-horizontal well" onSubmit={e => {e.preventDefault(); newMessage(e)}}>
 
             <div className="form-group">
                 <div className="col-sm-8 col-sm-offset-2">

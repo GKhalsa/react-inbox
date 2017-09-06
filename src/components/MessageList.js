@@ -128,14 +128,15 @@ export default class MessageList extends Component {
         }))
     }
 
-    newMessage = (e) => {
+    newMessage = async(e) => {
         const subject = e.target.subject.value
         const body = e.target.body.value
         const id = this.state.messages.length + 1
 
-        const newMessage = httpNewMessage(subject,body)
+        const newMessage = await httpNewMessage(subject,body)
         this.setState((prevState) => ({
-            messages: [...prevState.messages, newMessage]    
+            messages: [...prevState.messages, newMessage],
+            formOpen: false    
         }))
     }
 
