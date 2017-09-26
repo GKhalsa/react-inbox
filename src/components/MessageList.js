@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import Message from './Message'
 import Toolbar from './Toolbar'
 import MessageSeeds from './messageSeeds'
+import { connect } from 'react-redux'
 
-export default class MessageList extends Component {
+export class MessageList extends Component {
 
     state = {
         messages:MessageSeeds
@@ -114,4 +115,10 @@ export default class MessageList extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    
+})
 
+const mapDispatchToProps = () => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessageList)
