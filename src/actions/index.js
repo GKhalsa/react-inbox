@@ -45,24 +45,12 @@ export function updateStar(id, starred) {
     }
 }
 
-// updateStar = (id) => {
-//     let message = this.state.messages.filter((message) => { return message.id === id })
-//     httpUpdateStar(id, message)
-//     this.toggleAttribute(id, "starred")
-
-// }
-
-// export const httpUpdateStar = async (id, message) => {
-//     await fetch("http://localhost:8082/api/messages", {
-//         method: 'PATCH',
-//         body: JSON.stringify({
-//             "messageIds": [id],
-//             "command": "star",
-//             "star": !message[0].starred
-//         }),
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Accept': 'application/json',
-//         }
-//     })
-// }
+export const UPDATE_SELECTED = 'UPDATE_SELECTED'
+export function updateSelected(id){
+    return async (dispatch) => {
+        dispatch({
+            type: UPDATE_SELECTED,
+            id
+        })
+    }
+}

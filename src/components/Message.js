@@ -1,7 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {updateStar} from '../actions/index.js'
+import {updateStar, updateSelected} from '../actions/index.js'
 
 const Message = ({
     id,
@@ -11,13 +11,14 @@ const Message = ({
     selected,
     read,
     labels,
-    updateStar
+    updateStar,
+    updateSelected
 }) => (
         <div className={`row message ${read ? "read" : "unread"} ${selected ? "selected" : ""}`}>
             <div className="col-xs-1">
                 <div className="row">
                     <div className="col-xs-2">
-                        <input type="checkbox" checked={!!selected} onChange={e => toggleAttribute(id, "selected")}/>
+                        <input type="checkbox" checked={!!selected} onChange={e => updateSelected(id)}/>
                     </div>
                     <div className="col-xs-2" onClick={e => updateStar(id, starred)}>
                         {starred ? <i className="star fa fa-star"></i> : <i className="star fa fa-star-o"></i>}
@@ -39,7 +40,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    updateStar
+    updateStar,
+    updateSelected
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Message)

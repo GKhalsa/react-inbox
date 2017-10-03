@@ -15,32 +15,18 @@ export class MessageList extends Component {
         formOpen: false
     }
 
-    // componentDidMount = async() => {
-    //     // const response = await fetch("http://localhost:8082/api/messages")
-    //     // const json = await response.json()
-    //     // this.setState({ messages: json._embedded.messages})
-    //     fetchMessages()
-    // }
-
     selectedMessages = () => {
         const ids = this.state.messages.map((message) => { if (message.selected) { return message.id } return })
         return ids.filter(Number)
     }
 
-    // updateStar = (id) => {
-    //     let message = this.state.messages.filter((message) => {return message.id === id})
-    //     httpUpdateStar(id, message)
-    //     this.toggleAttribute(id,"starred")
-        
+    // toggleAttribute = (id, attribute) => {
+    //     const updatedMessages = this.state.messages.map((message) => {
+    //         if(message.id === id){return {...message, [attribute]: !message[attribute]}}
+    //         return message
+    //     })
+    //     this.setState({messages: updatedMessages}) 
     // }
-
-    toggleAttribute = (id, attribute) => {
-        const updatedMessages = this.state.messages.map((message) => {
-            if(message.id === id){return {...message, [attribute]: !message[attribute]}}
-            return message
-        })
-        this.setState({messages: updatedMessages}) 
-    }
 
     selectedCount = () => {
         return this.state.messages.filter((message) => message.selected).length
@@ -166,10 +152,8 @@ export class MessageList extends Component {
                                                          id={message.id}
                                                          subject={message.subject}
                                                          starred={message.starred}
-                                                         toggleAttribute={this.toggleAttribute}
                                                          read={message.read}
                                                          labels={message.labels}
-                                                         
                                                          />) }
             </div>
         )
