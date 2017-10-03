@@ -1,4 +1,7 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import {updateStar} from '../actions/index.js'
 
 const Message = ({
     id,
@@ -16,7 +19,7 @@ const Message = ({
                     <div className="col-xs-2">
                         <input type="checkbox" checked={!!selected} onChange={e => toggleAttribute(id, "selected")}/>
                     </div>
-                    <div className="col-xs-2" onClick={e => updateStar(id)}>
+                    <div className="col-xs-2" onClick={e => updateStar(id, starred)}>
                         {starred ? <i className="star fa fa-star"></i> : <i className="star fa fa-star-o"></i>}
                     </div>
                 </div>
@@ -31,4 +34,12 @@ const Message = ({
         </div>
 )
 
-export default Message
+const mapStateToProps = state => ({
+    messages: state.messages
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    updateStar
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Message)

@@ -5,6 +5,8 @@ import MessageSeeds from './messageSeeds'
 import { connect } from 'react-redux'
 import {httpUpdateStar, httpUpdateReadOrUnread, httpLabel, httpDeleteMessage, httpNewMessage} from './http'
 import ComposeForm from './ComposeForm'
+import {fetchMessages,updateStar} from '../actions/index.js'
+import {bindActionCreators} from 'redux'
 
 export class MessageList extends Component {
 
@@ -13,23 +15,24 @@ export class MessageList extends Component {
         formOpen: false
     }
 
-    componentDidMount = async() => {
-        const response = await fetch("http://localhost:8082/api/messages")
-        const json = await response.json()
-        this.setState({ messages: json._embedded.messages})
-    }
+    // componentDidMount = async() => {
+    //     // const response = await fetch("http://localhost:8082/api/messages")
+    //     // const json = await response.json()
+    //     // this.setState({ messages: json._embedded.messages})
+    //     fetchMessages()
+    // }
 
     selectedMessages = () => {
         const ids = this.state.messages.map((message) => { if (message.selected) { return message.id } return })
         return ids.filter(Number)
     }
 
-    updateStar = (id) => {
-        let message = this.state.messages.filter((message) => {return message.id === id})
-        httpUpdateStar(id, message)
-        this.toggleAttribute(id,"starred")
+    // updateStar = (id) => {
+    //     let message = this.state.messages.filter((message) => {return message.id === id})
+    //     httpUpdateStar(id, message)
+    //     this.toggleAttribute(id,"starred")
         
-    }
+    // }
 
     toggleAttribute = (id, attribute) => {
         const updatedMessages = this.state.messages.map((message) => {
@@ -142,7 +145,6 @@ export class MessageList extends Component {
     }
 
     render(){
-        
         return (
             <div>
                 <Toolbar
@@ -158,7 +160,7 @@ export class MessageList extends Component {
 
                  {this.state.formOpen ? <ComposeForm newMessage={this.newMessage}/> : null}
 
-                {this.state.messages.map((message,i) => <Message 
+                {this.props.messages.all.map((message,i) => <Message 
                                                          key={i} 
                                                          selected={message.selected}
                                                          id={message.id}
@@ -167,7 +169,7 @@ export class MessageList extends Component {
                                                          toggleAttribute={this.toggleAttribute}
                                                          read={message.read}
                                                          labels={message.labels}
-                                                         updateStar={this.updateStar}
+                                                         
                                                          />) }
             </div>
         )
@@ -176,9 +178,11 @@ export class MessageList extends Component {
 }
 
 const mapStateToProps = state => ({
-    
+    messages: state.messages
 })
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = dispatch => bindActionCreators({
+    fetchMessages
+},dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageList)

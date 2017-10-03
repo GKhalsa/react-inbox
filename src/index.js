@@ -8,6 +8,9 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'font-awesome/css/font-awesome.css';
 import store from './store'
 import { Provider } from 'react-redux'
+import {fetchMessages} from './actions/index.js'
+
+store.dispatch(fetchMessages())
 
 ReactDOM.render(
     <Provider store={store}>

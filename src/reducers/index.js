@@ -1,26 +1,28 @@
 import { combineReducers } from 'redux'
+import { POPULATE_MESSAGES, UPDATE_STAR} from '../actions/index.js'
 
-function items(state = { all: [] }, action) {
-    // switch (actio?n.type) {
-        // case ITEMS_RECEIVED:
-        //     return {
-        //         ...state,
-        //         all: action.items
-        //     }
-        // case ITEM_CREATED:
-        //     return {
-        //         ...state,
-        //         all: [
-        //             action.item,
-        //             ...state.all,
-        //         ]
-        //     }
-        // default:
-            return state
-    // }
+
+function messages(state = {all:[]}, action) {
+    switch (action.type){
+        
+        case POPULATE_MESSAGES:
+            return {...state, all: action.messages}
+        
+            case UPDATE_STAR: 
+            const updatedMessages = state.all.map((message) => {
+                if (message.id === action.id) { return { ...message, "starred": !message.starred } }
+                return message
+            })
+            return {...state, all: updatedMessages}
+        
+            default: 
+            return state        
+    }
+
+    
 }
 
 
 export default combineReducers({
-    items
+    messages
 })
