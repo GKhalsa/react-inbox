@@ -15,71 +15,6 @@ export class MessageList extends Component {
         formOpen: false
     }
 
-    selectedMessages = () => {
-        const ids = this.state.messages.map((message) => { if (message.selected) { return message.id } return })
-        return ids.filter(Number)
-    }
-
-    // toggleAttribute = (id, attribute) => {
-    //     const updatedMessages = this.state.messages.map((message) => {
-    //         if(message.id === id){return {...message, [attribute]: !message[attribute]}}
-    //         return message
-    //     })
-    //     this.setState({messages: updatedMessages}) 
-    // }
-
-    // selectedCount = () => {
-    //     return this.props.messages.all.filter((message) => message.selected).length
-    // }
-
-    // totalMessageCount = () => {
-    //     return this.props.messages.all.length
-    // }
-
-    // updateSelection = (booleanValue) => {
-    //     return this.state.messages.map((message) => { return { ...message, selected: booleanValue } })
-    // }
-
-    // selectDeselect = () => {
-    //     let newMessages;
-    //     if (this.selectedCount() === this.totalMessageCount()) {
-    //         newMessages = this.updateSelection(false)
-    //     } else {
-    //         newMessages = this.updateSelection(true)
-    //     }       
-      
-    //     this.setState({ messages: newMessages })
-    // }
-
-    // markAsReadOrUnread = (booleanValue) => {
-    //     const markedReadOrUnread = this.state.messages.map((message) => {if (message.selected) {return { ...message, read: booleanValue }}
-    //         return message
-    //     });
-    //     this.setState({ messages: markedReadOrUnread })   
-    // }
-
-    
-    // updateReadOrUnread = (booleanValue) => {
-    //     const noUndefinedIds = this.selectedMessages()
-    //     httpUpdateReadOrUnread(noUndefinedIds, booleanValue)
-    //     this.markAsReadOrUnread(booleanValue)
-    // }
-
-    // deleteSelectedMessages = () => {
-    //     const newMessages = this.state.messages.filter((message) => {return !message.selected})
-    //     this.setState({messages:newMessages})
-    // }
-
-    // httpDelete = () => {
-    //     const noUndefinedIds = this.selectedMessages()
-    //     httpDeleteMessage(noUndefinedIds)
-    //     this.deleteSelectedMessages()
-    // }
-
-    // unreadMessageCount = () => {
-    //     return this.props.messages.all.filter((message) => {return !message.read}).length
-    // }
-
     addLabelToSelected = (label) => {
         const messagesWithUpdatedLabel = this.state.messages.map((message) => {
             if (message.selected) { return { ...message, labels: [...new Set([...message.labels, label])] }}
@@ -134,7 +69,7 @@ export class MessageList extends Component {
         return (
             <div>
                 <Toolbar
-                 httpLabel={this.httpLabel}
+                //  httpLabel={this.httpLabel}
                  openForm={this.openForm}
                  />
 

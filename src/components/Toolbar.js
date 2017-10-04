@@ -1,7 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateStar, updateSelected, selectDeselect, markAsReadOrUnread, deleteSelectedMessages } from '../actions/index.js'
+import { updateStar, updateSelected, selectDeselect, markAsReadOrUnread, deleteSelectedMessages, addRemoveLabel } from '../actions/index.js'
 
 const Toolbar = ({
     selectDeselect,
@@ -12,7 +12,8 @@ const Toolbar = ({
     openForm,
     messages,
     markAsReadOrUnread,
-    deleteSelectedMessages
+    deleteSelectedMessages,
+    addRemoveLabel
 }) => {
 
     const selectedCount = () => {
@@ -51,14 +52,14 @@ const Toolbar = ({
                     Mark As Unread
                 </button>
 
-                <select className="form-control label-select" onChange={e => httpLabel(e, "addLabel")}>
+                <select className="form-control label-select" onChange={e => addRemoveLabel(e, "addLabel", messages)}>
                     <option>Apply label</option>
                     <option value="dev">dev</option>
                     <option value="personal">personal</option>
                     <option value="gschool">gschool</option>
                 </select>
 
-                <select className="form-control label-select" onChange={e => httpLabel(e, "removeLabel")}>
+                <select className="form-control label-select" onChange={e => addRemoveLabel(e, "removeLabel", messages)}>
                     <option>Remove label</option>
                     <option value="dev">dev</option>
                     <option value="personal">personal</option>
@@ -84,7 +85,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     updateSelected,
     selectDeselect,
     markAsReadOrUnread,
-    deleteSelectedMessages
+    deleteSelectedMessages,
+    addRemoveLabel
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)

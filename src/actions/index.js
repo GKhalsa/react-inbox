@@ -104,3 +104,73 @@ export function deleteSelectedMessages(messages){
     }
 }
 
+export const ADD_LABEL = 'ADD_LABEL'
+export const REMOVE_LABEL = 'REMOVE_LABEL'
+export function addRemoveLabel(e, type, messages){
+
+    const ids = messages.map((message) => { if (message.selected) { return message.id } return })
+    const noUndefinedIds = ids.filter(Number)
+    const label = e.target.value 
+
+    return async (dispatch) => {
+        await fetch("http://localhost:8082/api/messages", {
+            method: 'PATCH',
+            body: JSON.stringify({
+                "messageIds": [...noUndefinedIds],
+                "command": type,
+                "label": label
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        })
+
+        if (type == "addLabel") {
+            dispatch({
+                type: ADD_LABEL,
+                label
+            })
+        } else {
+            dispatch({
+                type: REMOVE_LABEL,
+                label
+            })
+        }
+    }
+}
+
+
+
+
+// addLabelToSelected = (label) => {
+//     const messagesWithUpdatedLabel = this.state.messages.map((message) => {
+//         if (message.selected) { return { ...message, labels: [...new Set([...message.labels, label])] } }
+//         return message
+//     })
+
+//     this.setState({ messages: messagesWithUpdatedLabel })
+// }
+
+// removeElementFromArray = (array, element) => {
+//     return array.filter((label) => { return label != element })
+// }
+
+// removeLabelOnSelected = (label) => {
+//     const messagesWithUpdatedLabel = this.state.messages.map((message) => {
+//         const updatedLabels = this.removeElementFromArray(message.labels, label)
+//         if (message.selected) { return { ...message, labels: updatedLabels } }
+//         return message
+//     })
+
+//     this.setState({ messages: messagesWithUpdatedLabel })
+// }
+
+// httpLabel = (e, type) => {
+//     const label = e.target.value
+//     const noUndefinedIds = this.selectedMessages()
+//     httpLabel(noUndefinedIds, type, label)
+
+//     if (type == "addLabel") { return this.addLabelToSelected(label) }
+//     this.removeLabelOnSelected(label)
+// }

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { POPULATE_MESSAGES, UPDATE_STAR, UPDATE_SELECTED, SELECT_DESELECT,
-         MARK_AS_READ_OR_UNREAD, DELETE_SELECTED_MESSAGES} from '../actions/index.js'
+         MARK_AS_READ_OR_UNREAD, DELETE_SELECTED_MESSAGES, ADD_LABEL, REMOVE_LABEL} from '../actions/index.js'
 
 
 function messages(state = {all:[]}, action) {
@@ -37,6 +37,21 @@ function messages(state = {all:[]}, action) {
         case DELETE_SELECTED_MESSAGES: 
             const nonDeletedMessages = state.all.filter((message) => {return !message.selected})
             return {...state, all: nonDeletedMessages}    
+           
+        case ADD_LABEL: 
+            const messagesWithAddedLabels = state.all.map((message) => {
+                if (message.selected) { return { ...message, labels: [...new Set([...message.labels, action.label])] } }
+                return message
+            })
+            return {...state, all: messagesWithAddedLabels}    
+
+        case REMOVE_LABEL: 
+            const messagesWithRemovedLabels = state.all.map((message) => {
+                const updatedLabels = message.labels.filter((label) => { return label != action.label })
+                if (message.selected) { return { ...message, labels: updatedLabels } }
+                return message
+            })    
+            return { ...state, all: messagesWithRemovedLabels }    
         default: 
             return state        
     }
