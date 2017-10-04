@@ -1,17 +1,18 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateStar, updateSelected, selectDeselect, markAsReadOrUnread } from '../actions/index.js'
+import { updateStar, updateSelected, selectDeselect, markAsReadOrUnread, deleteSelectedMessages } from '../actions/index.js'
 
 const Toolbar = ({
     selectDeselect,
-    httpDelete,
+    // httpDelete,
     // unreadMessageCount,
     httpLabel,
     // markAsReadOrUnread,
     openForm,
     messages,
-    markAsReadOrUnread
+    markAsReadOrUnread,
+    deleteSelectedMessages
 }) => {
 
     const selectedCount = () => {
@@ -64,7 +65,7 @@ const Toolbar = ({
                     <option value="gschool">gschool</option>
                 </select>
 
-                <button className="btn btn-default" onClick={e => { httpDelete()}}>
+                <button className="btn btn-default" onClick={e => { deleteSelectedMessages(messages)}}>
                     <i className="fa fa-trash-o"></i>
                 </button>
             </div>
@@ -82,7 +83,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     updateStar,
     updateSelected,
     selectDeselect,
-    markAsReadOrUnread
+    markAsReadOrUnread,
+    deleteSelectedMessages
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)

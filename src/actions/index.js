@@ -79,3 +79,25 @@ export function markAsReadOrUnread(booleanValue, messages){
         })
     }
 }
+
+export const DELETE_SELECTED_MESSAGES = 'DELETE_SELECTED_MESSAGES'
+export function deleteSelectedMessages(messages){
+    //extract to helper
+    const ids = messages.map((message) => { if (message.selected) { return message.id } return })
+    const noUndefinedIds = ids.filter(Number)
+
+    return async (dispatch) => {
+        await fetch("http://localhost:8082/api/messages", {
+            method: 'PATCH',
+            body: JSON.stringify({
+                "messageIds": [...noUndefinedIds],
+                "command": "delete",
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        })        
+    }
+}
+

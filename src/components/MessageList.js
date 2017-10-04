@@ -65,16 +65,16 @@ export class MessageList extends Component {
     //     this.markAsReadOrUnread(booleanValue)
     // }
 
-    deleteSelectedMessages = () => {
-        const newMessages = this.state.messages.filter((message) => {return !message.selected})
-        this.setState({messages:newMessages})
-    }
+    // deleteSelectedMessages = () => {
+    //     const newMessages = this.state.messages.filter((message) => {return !message.selected})
+    //     this.setState({messages:newMessages})
+    // }
 
-    httpDelete = () => {
-        const noUndefinedIds = this.selectedMessages()
-        httpDeleteMessage(noUndefinedIds)
-        this.deleteSelectedMessages()
-    }
+    // httpDelete = () => {
+    //     const noUndefinedIds = this.selectedMessages()
+    //     httpDeleteMessage(noUndefinedIds)
+    //     this.deleteSelectedMessages()
+    // }
 
     // unreadMessageCount = () => {
     //     return this.props.messages.all.filter((message) => {return !message.read}).length
@@ -138,7 +138,7 @@ export class MessageList extends Component {
                 //  totalMessageCount={this.totalMessageCount}
                 //  selectDeselect={this.selectDeselect}
                 //  updateReadOrUnread={this.updateReadOrUnread}
-                 httpDelete={this.httpDelete}
+                //  httpDelete={this.httpDelete}
                 //  unreadMessageCount={this.unreadMessageCount()}
                  httpLabel={this.httpLabel}
                  openForm={this.openForm}
