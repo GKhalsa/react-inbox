@@ -82,7 +82,6 @@ export function markAsReadOrUnread(booleanValue, messages){
 
 export const DELETE_SELECTED_MESSAGES = 'DELETE_SELECTED_MESSAGES'
 export function deleteSelectedMessages(messages){
-    //extract to helper
     const ids = messages.map((message) => { if (message.selected) { return message.id } return })
     const noUndefinedIds = ids.filter(Number)
     return async (dispatch) => {
@@ -140,37 +139,40 @@ export function addRemoveLabel(e, type, messages){
     }
 }
 
+export const NEW_MESSAGE = 'NEW_MESSAGE'
+export function newMessage(e){
+    const subject = e.target.subject.value
+    const body = e.target.body.value
+    
+    return async (dispatch) => {
+        const response = await fetch("http://localhost:8082/api/messages", {
+            method: 'POST',
+            body: JSON.stringify({
+                "subject": subject,
+                "body": body,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        })
 
+        const json = await response.json()
+        
 
+        dispatch({
+            type: NEW_MESSAGE,
+            newMessage: json, 
+            formOpen: false    
+        })
+    }
+}
 
-// addLabelToSelected = (label) => {
-//     const messagesWithUpdatedLabel = this.state.messages.map((message) => {
-//         if (message.selected) { return { ...message, labels: [...new Set([...message.labels, label])] } }
-//         return message
-//     })
-
-//     this.setState({ messages: messagesWithUpdatedLabel })
-// }
-
-// removeElementFromArray = (array, element) => {
-//     return array.filter((label) => { return label != element })
-// }
-
-// removeLabelOnSelected = (label) => {
-//     const messagesWithUpdatedLabel = this.state.messages.map((message) => {
-//         const updatedLabels = this.removeElementFromArray(message.labels, label)
-//         if (message.selected) { return { ...message, labels: updatedLabels } }
-//         return message
-//     })
-
-//     this.setState({ messages: messagesWithUpdatedLabel })
-// }
-
-// httpLabel = (e, type) => {
-//     const label = e.target.value
-//     const noUndefinedIds = this.selectedMessages()
-//     httpLabel(noUndefinedIds, type, label)
-
-//     if (type == "addLabel") { return this.addLabelToSelected(label) }
-//     this.removeLabelOnSelected(label)
-// }
+export const OPEN_FORM = 'OPEN_FORM'
+export function openForm(){
+    return async (dispatch) => {
+        dispatch({
+            type: OPEN_FORM
+        })
+    }
+}

@@ -1,14 +1,11 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { updateStar, updateSelected, selectDeselect, markAsReadOrUnread, deleteSelectedMessages, addRemoveLabel } from '../actions/index.js'
+import { updateStar, updateSelected, selectDeselect, markAsReadOrUnread,
+         deleteSelectedMessages, addRemoveLabel, openForm } from '../actions/index.js'
 
 const Toolbar = ({
     selectDeselect,
-    // httpDelete,
-    // unreadMessageCount,
-    httpLabel,
-    // markAsReadOrUnread,
     openForm,
     messages,
     markAsReadOrUnread,
@@ -86,7 +83,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     selectDeselect,
     markAsReadOrUnread,
     deleteSelectedMessages,
-    addRemoveLabel
+    addRemoveLabel,
+    openForm
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)

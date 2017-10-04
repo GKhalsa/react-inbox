@@ -29,15 +29,9 @@ const Message = ({
         </div>
 )
 
-const mapStateToProps = state => ({
-    messages: state.messages
+const mapStateToProps = (state) => ({
+    messages: state.messages 
 })
-
-// function mapStateToProps(state, ownProps) {
-//     return {
-//         user: state.users[ownProps.userId]
-//     };
-// }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     updateStar,

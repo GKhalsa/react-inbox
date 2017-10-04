@@ -1,4 +1,7 @@
 import React from 'react';
+import { newMessage } from '../actions/index.js'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 const ComposeForm = ({newMessage}) => (
     <div>   
@@ -34,4 +37,9 @@ const ComposeForm = ({newMessage}) => (
     </div>
 )
 
-export default ComposeForm
+const mapDispatchToProps = dispatch => bindActionCreators({
+    newMessage
+},dispatch)
+
+
+export default connect(null, mapDispatchToProps)(ComposeForm)
