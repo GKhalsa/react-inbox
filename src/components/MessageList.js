@@ -134,12 +134,6 @@ export class MessageList extends Component {
         return (
             <div>
                 <Toolbar
-                // selectedCount={this.selectedCount}
-                //  totalMessageCount={this.totalMessageCount}
-                //  selectDeselect={this.selectDeselect}
-                //  updateReadOrUnread={this.updateReadOrUnread}
-                //  httpDelete={this.httpDelete}
-                //  unreadMessageCount={this.unreadMessageCount()}
                  httpLabel={this.httpLabel}
                  openForm={this.openForm}
                  />

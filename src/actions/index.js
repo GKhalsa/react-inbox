@@ -85,7 +85,6 @@ export function deleteSelectedMessages(messages){
     //extract to helper
     const ids = messages.map((message) => { if (message.selected) { return message.id } return })
     const noUndefinedIds = ids.filter(Number)
-
     return async (dispatch) => {
         await fetch("http://localhost:8082/api/messages", {
             method: 'PATCH',
@@ -97,7 +96,11 @@ export function deleteSelectedMessages(messages){
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             }
-        })        
+        })     
+        
+    dispatch({
+        type: DELETE_SELECTED_MESSAGES
+    })    
     }
 }
 
