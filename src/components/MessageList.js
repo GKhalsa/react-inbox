@@ -28,42 +28,42 @@ export class MessageList extends Component {
     //     this.setState({messages: updatedMessages}) 
     // }
 
-    selectedCount = () => {
-        return this.state.messages.filter((message) => message.selected).length
-    }
+    // selectedCount = () => {
+    //     return this.props.messages.all.filter((message) => message.selected).length
+    // }
 
-    totalMessageCount = () => {
-        return this.state.messages.length
-    }
+    // totalMessageCount = () => {
+    //     return this.props.messages.all.length
+    // }
 
-    updateSelection = (booleanValue) => {
-        return this.state.messages.map((message) => { return { ...message, selected: booleanValue } })
-    }
+    // updateSelection = (booleanValue) => {
+    //     return this.state.messages.map((message) => { return { ...message, selected: booleanValue } })
+    // }
 
-    selectDeselect = () => {
-        let newMessages;
-        if (this.selectedCount() === this.totalMessageCount()) {
-            newMessages = this.updateSelection(false)
-        } else {
-            newMessages = this.updateSelection(true)
-        }       
+    // selectDeselect = () => {
+    //     let newMessages;
+    //     if (this.selectedCount() === this.totalMessageCount()) {
+    //         newMessages = this.updateSelection(false)
+    //     } else {
+    //         newMessages = this.updateSelection(true)
+    //     }       
       
-        this.setState({ messages: newMessages })
-    }
+    //     this.setState({ messages: newMessages })
+    // }
 
-    markAsReadOrUnread = (booleanValue) => {
-        const markedReadOrUnread = this.state.messages.map((message) => {if (message.selected) {return { ...message, read: booleanValue }}
-            return message
-        });
-        this.setState({ messages: markedReadOrUnread })   
-    }
+    // markAsReadOrUnread = (booleanValue) => {
+    //     const markedReadOrUnread = this.state.messages.map((message) => {if (message.selected) {return { ...message, read: booleanValue }}
+    //         return message
+    //     });
+    //     this.setState({ messages: markedReadOrUnread })   
+    // }
 
     
-    updateReadOrUnread = (booleanValue) => {
-        const noUndefinedIds = this.selectedMessages()
-        httpUpdateReadOrUnread(noUndefinedIds, booleanValue)
-        this.markAsReadOrUnread(booleanValue)
-    }
+    // updateReadOrUnread = (booleanValue) => {
+    //     const noUndefinedIds = this.selectedMessages()
+    //     httpUpdateReadOrUnread(noUndefinedIds, booleanValue)
+    //     this.markAsReadOrUnread(booleanValue)
+    // }
 
     deleteSelectedMessages = () => {
         const newMessages = this.state.messages.filter((message) => {return !message.selected})
@@ -76,9 +76,9 @@ export class MessageList extends Component {
         this.deleteSelectedMessages()
     }
 
-    unreadMessageCount = () => {
-        return this.state.messages.filter((message) => {return !message.read}).length
-    }
+    // unreadMessageCount = () => {
+    //     return this.props.messages.all.filter((message) => {return !message.read}).length
+    // }
 
     addLabelToSelected = (label) => {
         const messagesWithUpdatedLabel = this.state.messages.map((message) => {
@@ -134,12 +134,12 @@ export class MessageList extends Component {
         return (
             <div>
                 <Toolbar
-                 selectedCount={this.selectedCount}
-                 totalMessageCount={this.totalMessageCount}
-                 selectDeselect={this.selectDeselect}
-                 updateReadOrUnread={this.updateReadOrUnread}
+                // selectedCount={this.selectedCount}
+                //  totalMessageCount={this.totalMessageCount}
+                //  selectDeselect={this.selectDeselect}
+                //  updateReadOrUnread={this.updateReadOrUnread}
                  httpDelete={this.httpDelete}
-                 unreadMessageCount={this.unreadMessageCount()}
+                //  unreadMessageCount={this.unreadMessageCount()}
                  httpLabel={this.httpLabel}
                  openForm={this.openForm}
                  />
@@ -148,12 +148,7 @@ export class MessageList extends Component {
 
                 {this.props.messages.all.map((message,i) => <Message 
                                                          key={i} 
-                                                         selected={message.selected}
-                                                         id={message.id}
-                                                         subject={message.subject}
-                                                         starred={message.starred}
-                                                         read={message.read}
-                                                         labels={message.labels}
+                                                         message={message}
                                                          />) }
             </div>
         )

@@ -4,32 +4,26 @@ import { connect } from 'react-redux'
 import {updateStar, updateSelected} from '../actions/index.js'
 
 const Message = ({
-    id,
-    subject,
-    starred,
-    toggleAttribute,
-    selected,
-    read,
-    labels,
+    message,
     updateStar,
     updateSelected
 }) => (
-        <div className={`row message ${read ? "read" : "unread"} ${selected ? "selected" : ""}`}>
+        <div className={`row message ${message.read ? "read" : "unread"} ${message.selected ? "selected" : ""}`}>
             <div className="col-xs-1">
                 <div className="row">
                     <div className="col-xs-2">
-                        <input type="checkbox" checked={!!selected} onChange={e => updateSelected(id)}/>
+                        <input type="checkbox" checked={!!message.selected} onChange={e => updateSelected(message.id)}/>
                     </div>
-                    <div className="col-xs-2" onClick={e => updateStar(id, starred)}>
-                        {starred ? <i className="star fa fa-star"></i> : <i className="star fa fa-star-o"></i>}
+                    <div className="col-xs-2" onClick={e => updateStar(message.id, message.starred)}>
+                        {message.starred ? <i className="star fa fa-star"></i> : <i className="star fa fa-star-o"></i>}
                     </div>
                 </div>
             </div>
             <div className="col-xs-11">
-                {labels.map((label, i) => {return <span key={i} className="label label-warning">{label}</span>})}
+                {message.labels.map((label, i) => {return <span key={i} className="label label-warning">{label}</span>})}
 
                 <a href="#">
-                    {subject}
+                    {message.subject}
             </a>
             </div>
         </div>
@@ -38,6 +32,12 @@ const Message = ({
 const mapStateToProps = state => ({
     messages: state.messages
 })
+
+// function mapStateToProps(state, ownProps) {
+//     return {
+//         user: state.users[ownProps.userId]
+//     };
+// }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     updateStar,

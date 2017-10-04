@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { POPULATE_MESSAGES, UPDATE_STAR, UPDATE_SELECTED} from '../actions/index.js'
+import { POPULATE_MESSAGES, UPDATE_STAR, UPDATE_SELECTED, SELECT_DESELECT, MARK_AS_READ_OR_UNREAD} from '../actions/index.js'
 
 
 function messages(state = {all:[]}, action) {
@@ -22,7 +22,16 @@ function messages(state = {all:[]}, action) {
             })
             return { ...state, all: updatedSelectedMessages }
 
+        case SELECT_DESELECT: 
+            const massSelectDeselect = state.all.map((message) => { return { ...message, selected: action.booleanValue } })        
+            return {...state, all: massSelectDeselect}    
 
+        case MARK_AS_READ_OR_UNREAD: 
+            const markedReadOrUnread = state.all.map((message) => {
+                if (message.selected) { return { ...message, read: action.booleanValue } }
+                return message
+            })
+            return { ...state, all: markedReadOrUnread }
         default: 
             return state        
     }
