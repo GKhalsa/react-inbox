@@ -1,22 +1,21 @@
 import React, {Component} from 'react'
 import Message from './Message'
 import Toolbar from './Toolbar'
-import MessageSeeds from './messageSeeds'
 import ComposeForm from './ComposeForm'
 import {fetchMessages,updateStar} from '../actions/index.js'
 import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 
 const MessageList = ({messages, formOpen}) => (
   
-    <div>
-        <Toolbar/>
-        {formOpen ? <ComposeForm/> : null}
-        {messages.all.map((message,i) => <Message 
-                                                    key={i} 
-                                                    message={message}
-                                                    />) }
-   </div>
+    <Router>
+        <div>
+            <Toolbar/>
+            <Route path="/compose" component={ComposeForm}/>
+            {messages.all.map((message,i) => <Message key={i}   message={message}/>) }
+        </div>
+   </Router>
 
 )
 

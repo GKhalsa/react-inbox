@@ -140,7 +140,7 @@ export function addRemoveLabel(e, type, messages){
 }
 
 export const NEW_MESSAGE = 'NEW_MESSAGE'
-export function newMessage(e){
+export function newMessage(e, history){
     const subject = e.target.subject.value
     const body = e.target.body.value
     
@@ -165,6 +165,8 @@ export function newMessage(e){
             newMessage: json, 
             formOpen: false    
         })
+
+        history.push("/")
     }
 }
 
@@ -173,6 +175,38 @@ export function openForm(){
     return async (dispatch) => {
         dispatch({
             type: OPEN_FORM
+        })
+    }
+}
+
+export const MARK_READ = 'MARK_READ'
+export const GET_BODY = 'GET_BODY'
+export function getBody(path, id){    
+    return async (dispatch) => {
+        const response = await fetch("http://localhost:8082/api/" + path)
+        const json = await response.json()
+        
+        dispatch({
+            type: GET_BODY, 
+            body: json.body
+        })
+
+        await fetch("http://localhost:8082/api/messages", {
+            method: 'PATCH',
+            body: JSON.stringify({
+                "messageIds": [id],
+                "command": "read",
+                "read": true
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        })    
+
+        dispatch({
+            type: MARK_READ, 
+            id
         })
     }
 }
