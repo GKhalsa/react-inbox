@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { POPULATE_MESSAGES, UPDATE_STAR, UPDATE_SELECTED, SELECT_DESELECT,
          MARK_AS_READ_OR_UNREAD, DELETE_SELECTED_MESSAGES, ADD_LABEL,
-         REMOVE_LABEL, OPEN_FORM, NEW_MESSAGE} from '../actions/index.js'
+         REMOVE_LABEL, OPEN_FORM, NEW_MESSAGE, GET_BODY, MARK_READ} from '../actions/index.js'
 
 
-function messages(state = {all:[], formOpen: false}, action) {
+function messages(state = {all:[], formOpen: false, currentBody:""}, action) {
     switch (action.type){
         
         case POPULATE_MESSAGES:
@@ -60,6 +60,16 @@ function messages(state = {all:[], formOpen: false}, action) {
 
         case OPEN_FORM: 
             return {...state, formOpen: !state.formOpen}
+
+        case GET_BODY: 
+            return {...state, currentBody: action.body}    
+
+        case MARK_READ:
+            const updatedReadMessageList = state.all.map((message) => {
+                if (message.id == action.id) {return {...message, read: true}} 
+                return message 
+            })     
+            return {...state, all: updatedReadMessageList}
 
         default: 
             return state        

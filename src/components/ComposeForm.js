@@ -2,10 +2,11 @@ import React from 'react';
 import { newMessage } from '../actions/index.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
-const ComposeForm = ({newMessage}) => (
+const ComposeForm = ({newMessage, history}) => (
     <div>   
-        <form className="form-horizontal well" onSubmit={e => {e.preventDefault(); newMessage(e)}}>
+        <form className="form-horizontal well" onSubmit={e => {e.preventDefault(); newMessage(e, history)}}>
 
             <div className="form-group">
                 <div className="col-sm-8 col-sm-offset-2">
@@ -27,6 +28,7 @@ const ComposeForm = ({newMessage}) => (
                 </div>
             </div>
 
+            
             <div className="form-group">
                 <div className="col-sm-8 col-sm-offset-2">
                     <input type="submit" value="Send" className="btn btn-primary"></input>
@@ -42,4 +44,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 },dispatch)
 
 
-export default connect(null, mapDispatchToProps)(ComposeForm)
+export default withRouter(connect(null, mapDispatchToProps)(ComposeForm))

@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { updateStar, updateSelected, selectDeselect, markAsReadOrUnread,
          deleteSelectedMessages, addRemoveLabel, openForm } from '../actions/index.js'
+import {Link, Switch, withRouter} from 'react-router-dom'
 
 const Toolbar = ({
     selectDeselect,
@@ -10,7 +11,8 @@ const Toolbar = ({
     messages,
     markAsReadOrUnread,
     deleteSelectedMessages,
-    addRemoveLabel
+    addRemoveLabel,
+    history
 }) => {
 
     const selectedCount = () => {
@@ -33,9 +35,12 @@ const Toolbar = ({
                     unread messages
                 </p>
 
-                <button className="btn btn-danger" onClick={e => openForm()}>
-                    <i className="fa fa-plus"></i>
-                </button>
+
+                <Link to={`${history.location.pathname == "/compose" ? "/" : "/compose"}`}>
+                    <button className="btn btn-danger">
+                        <i className="fa fa-plus"></i>
+                    </button>
+                </Link>
 
                 <button className="btn btn-default" onClick={e => selectDeselect((selectedCount() === totalMessageCount()))}>
                     {selectedCount() === 0 ? <i className="fa fa-square-o"></i> : <i className={`fa ${selectedCount() === totalMessageCount() ? "fa-check-square-o" : "fa-minus-square-o"}`}></i>}
@@ -87,4 +92,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     openForm
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Toolbar))
